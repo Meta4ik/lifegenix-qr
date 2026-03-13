@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:lifegenix.com)",
+      "Bash(curl:*)",
+      "Bash(sed:*)",
+      "Bash(do sed:*)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(mkdir:*)",
+      "Bash(grep:*)",
+      "Bash(do:*)",
+      "Read(//private/tmp/**)",
+      "Bash(python3 -c \":*)"
+    ]
+  }
+}
