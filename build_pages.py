@@ -13,7 +13,7 @@ COMPANIES = [
     {"slug": "cleanplacepros", "name": "CLEAN PLACE PROS",   "full": "CLEAN PLACE PROS",   "code": "12",  "suffix": 13278, "imaging": 20},
     {"slug": "edgerealty",     "name": "EDGE REALTY",        "full": "EDGE REALTY",        "code": "13",  "suffix": 39256, "imaging": 20},
     {"slug": "hiley",          "name": "HILEY AUTOMOTIVE",   "full": "HILEY AUTOMOTIVE",   "code": "14",  "suffix": 74218, "imaging": 20},
-    {"slug": "nexbank",        "name": "NEXT BANK",          "full": "NEXT BANK",          "code": "15",  "suffix": 58734, "imaging": 20},
+    {"slug": "nexbank",        "name": "NexBank",            "full": "NexBank",            "code": "15",  "suffix": 58734, "imaging": 20},
     {"slug": "bannerhouse",    "name": "BANNER HOUSE",       "full": "BANNER HOUSE MEMBER","code": "ND",  "suffix": 46048, "imaging": 25},
     {"slug": "parkhouse",      "name": "PARK HOUSE",         "full": "PARK HOUSE MEMBER",  "code": "HP",  "suffix": 42098, "imaging": 25},
     {"slug": "ypo",            "name": "YPO",                "full": "YPO MEMBER",         "code": "TX",  "suffix": 24592, "imaging": 25},
