@@ -42,14 +42,14 @@ def make_page(company):
     <!-- HEADER -->
     <header class="header">
       <div class="logo-wrap">
-        <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix" />
+        <a href="https://lifegenix.com"><img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix" /></a>
       </div>
     </header>
 
     <!-- HERO -->
     <section class="hero">
       <div class="vip-badge">VIP Member Exclusive</div>
-      <h1>{name}<br><span>VIP Discounts</span></h1>
+      <h1><a href="https://lifegenix.com" style="color:inherit; text-decoration:none;">{name}</a><br><span>VIP Discounts</span></h1>
       <p>Exclusive benefits reserved for {full} members</p>
     </section>
 
@@ -245,10 +245,9 @@ def make_index():
   <div class="index-wrap">
     <div class="index-header">
       <div class="logo-wrap">
-        <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix" style="height:52px">
+        <a href="https://lifegenix.com"><img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix" style="height:52px"></a>
       </div>
-      <h1>VIP Partner Pages</h1>
-      <p style="color:#e05555;">Internal index — do not share this page</p>
+      <h1><a href="https://lifegenix.com" style="color:inherit; text-decoration:none;">VIP Partner Pages</a></h1>
     </div>
     <div class="partner-grid">
 {cards}    </div>
