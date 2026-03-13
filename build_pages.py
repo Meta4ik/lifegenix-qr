@@ -42,7 +42,6 @@ def make_page(company):
       <div class="logo-wrap">
         <img src="LifeGenix_Logo_blue-1.svg" alt="LifeGenix" />
       </div>
-      <p class="tagline">Advanced Regenerative Medicine</p>
     </header>
 
     <!-- HERO -->
