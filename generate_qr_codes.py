@@ -19,6 +19,7 @@ PAGES = [
     ("bannerhouse", "bannerhouse-46048.html"),
     ("parkhouse", "parkhouse-42098.html"),
     ("edgerealty", "edgerealty-39256.html"),
+    ("nexbank", "nexbank-58734.html"),
 ]
 
 for name, page in PAGES:
