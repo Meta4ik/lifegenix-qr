@@ -48,7 +48,7 @@ def make_page(company):
     <!-- HERO -->
     <section class="hero">
       <div class="vip-badge">VIP Member Exclusive</div>
-      <h1>{name} <span>VIP Discounts</span></h1>
+      <h1>{name}<br><span>VIP Discounts</span></h1>
       <p>Exclusive benefits reserved for {full} members</p>
     </section>
 
