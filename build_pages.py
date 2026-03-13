@@ -163,9 +163,7 @@ def make_landing_page(portal_filename):
 </head>
 <body>
   <div class="entrance">
-    <a href="{portal_filename}">
-      <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix VIP Portal">
-    </a>
+    <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix VIP Portal">
   </div>
 </body>
 </html>"""
