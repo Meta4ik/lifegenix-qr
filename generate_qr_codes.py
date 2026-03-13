@@ -7,7 +7,7 @@ Then: python3 generate_qr_codes.py
 import qrcode
 from qrcode.constants import ERROR_CORRECT_H
 
-BASE_URL = "https://lifegenix.com/"
+BASE_URL = "https://lifegenix-qr.vercel.app/"
 
 PAGES = [
     ("strata", "strata-93810.html"),
