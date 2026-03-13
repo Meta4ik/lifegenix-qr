@@ -107,7 +107,7 @@ def make_page(company):
     </div>
 
     <div class="bottom-brand">
-      <p class="footer-brand">© 2025 <a href="https://lifegenix.com" target="_blank">LifeGenix.com</a> &nbsp;·&nbsp; All rights reserved</p>
+      <p class="footer-brand">© 2026 <a href="https://lifegenix.com" target="_blank">LifeGenix.com</a> &nbsp;·&nbsp; All rights reserved</p>
     </div>
 
   </div>
