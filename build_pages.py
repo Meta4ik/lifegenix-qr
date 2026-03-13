@@ -140,7 +140,40 @@ def make_qr_generator():
         f.write("\n".join(lines))
     print(f"  📄  generate_qr_codes.py written")
 
+def make_landing_page(portal_filename):
+    """Creates a very simple 'VIP' entrance page with just a logo linking to the portal."""
+    filename = "vip-7391.html"
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifeGenix VIP Portal</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {{ display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: var(--navy); }}
+    .entrance {{ text-align: center; animation: fadeUp 0.8s ease both; }}
+    .entrance img {{ height: 80px; transition: transform 0.3s ease; }}
+    .entrance img:hover {{ transform: scale(1.05); }}
+  </style>
+</head>
+<body>
+  <div class="entrance">
+    <a href="{portal_filename}">
+      <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix VIP Portal">
+    </a>
+  </div>
+</body>
+</html>"""
+    path = os.path.join(OUTPUT_DIR, filename)
+    with open(path, "w") as f:
+        f.write(html)
+    print(f"  ✨  {filename} (Landing Page) written")
+    return filename
+
 def make_index():
+    portal_filename = "portal-5291.html"
     cards = ""
     for c in COMPANIES:
         fn = f"{c['slug']}-{c['suffix']}.html"
@@ -222,10 +255,27 @@ def make_index():
   </div>
 </body>
 </html>"""
-    path = os.path.join(OUTPUT_DIR, "index.html")
+    path = os.path.join(OUTPUT_DIR, portal_filename)
     with open(path, "w") as f:
         f.write(html)
-    print(f"  📋  index.html written")
+    print(f"  📋  {portal_filename} (Portal List) written")
+
+    # Create a redirect at the root index.html to hide the folder contents
+    redirect_html = """<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="refresh" content="0; url=https://lifegenix.com">
+</head>
+<body>
+  <p>Redirecting to <a href="https://lifegenix.com">lifegenix.com</a>...</p>
+</body>
+</html>"""
+    index_path = os.path.join(OUTPUT_DIR, "index.html")
+    with open(index_path, "w") as f:
+        f.write(redirect_html)
+    print(f"  🔀  index.html (Redirect) written")
+    
+    return portal_filename
 
 if __name__ == "__main__":
     print("\n🏥  LifeGenix VIP Page Generator\n")
@@ -233,10 +283,13 @@ if __name__ == "__main__":
     filenames = [make_page(c) for c in COMPANIES]
     print("\n── Support Files ──────────────────────")
     make_qr_generator()
-    make_index()
+    portal_fn = make_index()
+    vip_fn = make_landing_page(portal_fn)
     print("\n── URL Summary ────────────────────────")
     for c, fn in zip(COMPANIES, filenames):
         print(f"  {c['name']:<18} → https://lifegenix.com/{fn}")
+    print(f"  {'MASTER PORTAL':<18} → https://lifegenix.com/{portal_fn}")
+    print(f"  {'VIP ENTRANCE':<18} → https://lifegenix.com/{vip_fn}")
     print("\n✅  Done! Upload the whole folder to GitHub.\n")
     print("   To generate QR PNG files, run:")
     print("   pip install qrcode[pil] && python3 generate_qr_codes.py\n")
