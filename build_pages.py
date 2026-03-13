@@ -124,10 +124,21 @@ def make_qr_generator():
     print(f"  📄  generate_qr_codes.py written")
 
 def make_index():
-    rows = ""
+    cards = ""
     for c in COMPANIES:
         fn = f"{c['slug']}-{c['suffix']}.html"
-        rows += f'      <tr><td><a href="{fn}">{c["full"]}</a></td><td class="code">#{c["code"]}</td><td class="url">{fn}</td></tr>\n'
+        cards += f"""
+      <div class="partner-card">
+        <div class="partner-qr">
+          <img src="qr-codes/{c['slug']}-qr.png" alt="{c['full']} QR Code">
+        </div>
+        <div class="partner-body">
+          <div class="partner-name">{c['full']}</div>
+          <div class="partner-code"><span>#</span>{c['code']}</div>
+          <a href="{fn}" class="partner-link">Open page</a>
+        </div>
+      </div>
+"""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -135,32 +146,46 @@ def make_index():
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LifeGenix VIP Pages — Index</title>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .index-wrap {{ max-width: 700px; margin: 60px auto; padding: 0 24px; }}
-    h1 {{ font-family: 'Cormorant Garamond', serif; font-size: 36px; margin-bottom: 8px; }}
-    table {{ width: 100%; border-collapse: collapse; margin-top: 32px; }}
-    th {{ text-align: left; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-          color: var(--text-muted); padding: 0 0 12px; border-bottom: 1px solid rgba(37,174,212,0.2); }}
-    td {{ padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }}
-    td a {{ color: var(--teal-light); text-decoration: none; font-weight: 500; }}
-    td a:hover {{ text-decoration: underline; }}
-    .code {{ color: var(--teal); font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; }}
-    .url {{ color: var(--text-muted); font-size: 12px; }}
+    .index-wrap {{
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      position: relative;
+      z-index: 1;
+    }}
+    .index-header {{ text-align: center; margin-bottom: 48px; animation: fadeDown 0.7s ease both; }}
+    .index-header .logo-wrap {{ margin-bottom: 20px; }}
+    .index-header h1 {{ font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 40px); font-weight: 700; margin-bottom: 6px; }}
+    .index-header p {{ font-size: 13px; color: var(--text-muted); letter-spacing: 1px; }}
+    .partner-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }}
+    .partner-card {{ background: rgba(255,255,255,0.03); border: 1px solid rgba(37,174,212,0.18); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; animation: fadeUp 0.6s ease both; position: relative; }}
+    .partner-card::before {{ content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(37,174,212,0.07) 0%, transparent 70%); pointer-events: none; }}
+    .partner-card:hover {{ transform: translateY(-4px); border-color: rgba(37,174,212,0.45); box-shadow: 0 16px 40px rgba(37,174,212,0.12); }}
+    .partner-qr {{ background: white; display: flex; align-items: center; justify-content: center; padding: 20px; }}
+    .partner-qr img {{ width: 100%; max-width: 180px; height: auto; display: block; border-radius: 4px; }}
+    .partner-body {{ padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 4px; flex: 1; }}
+    .partner-name {{ font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--offwhite); }}
+    .partner-code {{ font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; line-height: 1.1; text-shadow: 0 0 20px rgba(37,174,212,0.4); }}
+    .partner-code span {{ font-size: 14px; font-weight: 400; opacity: 0.5; letter-spacing: 0; }}
+    .partner-link {{ display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal-light); text-decoration: none; opacity: 0.8; transition: opacity 0.2s ease; }}
+    .partner-link:hover {{ opacity: 1; text-decoration: underline; }}
+    .partner-link::after {{ content: '→'; font-size: 14px; }}
   </style>
 </head>
 <body>
   <div class="index-wrap">
-    <div class="logo-wrap" style="margin-bottom:24px">
-      <img src="LifeGenix_Logo_blue-1.svg" alt="LifeGenix" style="height:48px">
+    <div class="index-header">
+      <div class="logo-wrap">
+        <img src="LifeGenix_Logo_blue-1.svg" alt="LifeGenix" style="height:52px">
+      </div>
+      <h1>VIP Partner Pages</h1>
+      <p>Internal index — do not share this page</p>
     </div>
-    <h1>VIP Partner Pages</h1>
-    <p style="color:var(--text-muted);font-size:14px">Internal index — do not share this page</p>
-    <table>
-      <thead><tr><th>Company</th><th>Code</th><th>URL</th></tr></thead>
-      <tbody>
-{rows}      </tbody>
-    </table>
+    <div class="partner-grid">
+{cards}    </div>
   </div>
 </body>
 </html>"""
