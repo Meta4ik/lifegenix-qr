@@ -4,8 +4,11 @@ Run: pip install qrcode[pil]
 Then: python3 generate_qr_codes.py
 """
 
+import os
 import qrcode
 from qrcode.constants import ERROR_CORRECT_H
+
+os.makedirs("qr-codes", exist_ok=True)
 
 BASE_URL = "https://lifegenix-qr.vercel.app/"
 
@@ -24,7 +27,7 @@ for name, page in PAGES:
     qr.add_data(url)
     qr.make(fit=True)
     img = qr.make_image(fill_color="#071525", back_color="white")
-    out = f"{name}-qr.png"
+    out = f"qr-codes/{name}-qr.png"
     img.save(out)
     print(f"  ✅  {out}  →  {url}")
 
