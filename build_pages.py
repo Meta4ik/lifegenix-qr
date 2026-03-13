@@ -152,6 +152,11 @@ def make_index():
         <div class="partner-body">
           <div class="partner-name">{c['full']}</div>
           <div class="partner-code"><span>#</span>{c['code']}</div>
+          <div class="partner-discounts">
+            <div class="discount-item"><span>Imaging:</span> {c['imaging']}%</div>
+            <div class="discount-item"><span>Regen:</span> 10%</div>
+            <div class="discount-item"><span>Back:</span> 10%</div>
+          </div>
           <a href="{fn}" class="partner-link">Open page</a>
         </div>
       </div>
@@ -190,6 +195,17 @@ def make_index():
     .partner-link {{ display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal-light); text-decoration: none; opacity: 0.8; transition: opacity 0.2s ease; }}
     .partner-link:hover {{ opacity: 1; text-decoration: underline; }}
     .partner-link::after {{ content: '→'; font-size: 14px; }}
+    
+    .partner-discounts {{ 
+      margin: 12px 0; 
+      padding-top: 12px; 
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }}
+    .discount-item {{ font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; }}
+    .discount-item span {{ color: var(--offwhite); opacity: 0.7; font-weight: 600; }}
   </style>
 </head>
 <body>
