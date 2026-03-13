@@ -41,7 +41,7 @@ def make_page(company):
     <!-- HEADER -->
     <header class="header">
       <div class="logo-wrap">
-        <img src="LifeGenix_Logo_blue-1.svg" alt="LifeGenix" />
+        <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix" />
       </div>
     </header>
 
@@ -179,7 +179,7 @@ def make_index():
   <div class="index-wrap">
     <div class="index-header">
       <div class="logo-wrap">
-        <img src="LifeGenix_Logo_blue-1.svg" alt="LifeGenix" style="height:52px">
+        <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix" style="height:52px">
       </div>
       <h1>VIP Partner Pages</h1>
       <p>Internal index — do not share this page</p>
