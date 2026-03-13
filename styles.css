@@ -388,7 +388,14 @@ body::after {
   border-radius: 20px;
 }
 
+.bottom-brand {
+  text-align: center;
+  margin-top: 24px;
+  padding-bottom: 20px;
+}
+
 @media (max-width: 680px) {
+
   .bottom-row {
     grid-template-columns: 1fr;
     gap: 20px;

@@ -102,10 +102,14 @@ def make_page(company):
         <p class="footer-code-label">Your Member Code</p>
         <div class="footer-code"><span class="footer-code-prefix">#</span>{code}</div>
         <p class="footer-present">Present this page or provide your code number when calling</p>
-        <p class="footer-brand">© 2025 <a href="https://lifegenix.com" target="_blank">LifeGenix.com</a> &nbsp;·&nbsp; All rights reserved</p>
       </footer>
 
     </div>
+
+    <div class="bottom-brand">
+      <p class="footer-brand">© 2025 <a href="https://lifegenix.com" target="_blank">LifeGenix.com</a> &nbsp;·&nbsp; All rights reserved</p>
+    </div>
+
   </div>
 </body>
 </html>"""
