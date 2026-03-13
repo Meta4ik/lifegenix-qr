@@ -60,7 +60,7 @@ def make_page(company):
       <div class="cards-grid">
 
         <div class="card">
-          <span class="card-icon">🔬</span>
+          <img src="radiology-machine-icon.svg" class="card-icon-svg" alt="Preventative Wellness">
           <div class="card-title">Preventive Wellness &amp; Imaging</div>
           <div class="card-discount">20%</div>
           <span class="card-discount-label">Off Regular Price</span>
@@ -74,7 +74,9 @@ def make_page(company):
         </div>
 
         <div class="card">
-          <span class="card-icon">🩺</span>
+          <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v18M9 6h6M8 10h8M7 14h10M8 18h8M10 21h4" />
+          </svg>
           <div class="card-title">Non-Surgical Back Procedure</div>
           <div class="card-discount">10%</div>
           <span class="card-discount-label">Off Regular Price</span>
