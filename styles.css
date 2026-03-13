@@ -185,10 +185,13 @@ body::after {
   box-shadow: 0 16px 40px rgba(37,174,212,0.12);
 }
 
+.card-icon, .card-icon-svg {
+  display: block;
+  margin: 0 auto 14px;
+}
+
 .card-icon {
   font-size: 28px;
-  margin-bottom: 14px;
-  display: block;
 }
 
 .card-icon-svg {
