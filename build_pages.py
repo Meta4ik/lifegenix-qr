@@ -9,13 +9,14 @@ import os
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 COMPANIES = [
-    {"slug": "strata",         "name": "STRATA",          "full": "Strata Commercial",  "code": 11,  "suffix": 93810, "imaging": 20},
-    {"slug": "ypo",            "name": "YPO",              "full": "YPO",                "code": 26,  "suffix": 24592, "imaging": 25},
-    {"slug": "cleanplacepros", "name": "CLEAN PLACE PROS", "full": "Clean Place Pros",   "code": 12,  "suffix": 13278, "imaging": 20},
-    {"slug": "bannerhouse",    "name": "BANNER HOUSE",     "full": "Banner House",        "code": 26,  "suffix": 46048, "imaging": 25},
-    {"slug": "parkhouse",      "name": "PARK HOUSE",       "full": "Park House",          "code": 33,  "suffix": 42098, "imaging": 25},
-    {"slug": "edgerealty",     "name": "EDGE REALTY",      "full": "Edge Realty",         "code": 14,  "suffix": 39256, "imaging": 20},
-    {"slug": "nexbank",         "name": "NEXBANK",           "full": "NexBank",              "code": 17,  "suffix": 58734, "imaging": 20},
+    {"slug": "strata",         "name": "STRATA Commercial",  "full": "STRATA Commercial",  "code": "11",  "suffix": 93810, "imaging": 20},
+    {"slug": "cleanplacepros", "name": "CLEAN PLACE PROS",   "full": "CLEAN PLACE PROS",   "code": "12",  "suffix": 13278, "imaging": 20},
+    {"slug": "edgerealty",     "name": "EDGE REALTY",        "full": "EDGE REALTY",        "code": "13",  "suffix": 39256, "imaging": 20},
+    {"slug": "hiley",          "name": "HILEY AUTOMOTIVE",   "full": "HILEY AUTOMOTIVE",   "code": "14",  "suffix": 74218, "imaging": 20},
+    {"slug": "nexbank",        "name": "NEXT BANK",          "full": "NEXT BANK",          "code": "15",  "suffix": 58734, "imaging": 20},
+    {"slug": "bannerhouse",    "name": "BANNER HOUSE",       "full": "BANNER HOUSE MEMBER","code": "ND",  "suffix": 46048, "imaging": 25},
+    {"slug": "parkhouse",      "name": "PARK HOUSE",         "full": "PARK HOUSE MEMBER",  "code": "HP",  "suffix": 42098, "imaging": 25},
+    {"slug": "ypo",            "name": "YPO",                "full": "YPO MEMBER",         "code": "TX",  "suffix": 24592, "imaging": 25},
 ]
 
 def make_page(company):
@@ -26,6 +27,8 @@ def make_page(company):
     suffix = company["suffix"]
     imaging = company["imaging"]
     filename = f"{slug}-{suffix}.html"
+    # If code is numeric, keep # prefix, otherwise just show it
+    prefix = "#" if str(code).isdigit() else ""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -103,13 +106,13 @@ def make_page(company):
           <span class="phone-icon">📞</span>
           972-236-3333
         </a>
-        <p class="cta-note">Provide your member code <strong style="color:var(--teal)">#{code}</strong> when scheduling</p>
+        <p class="cta-note">Provide your member code <strong style="color:var(--teal)">{prefix}{code}</strong> when scheduling</p>
       </section>
 
       <!-- MEMBER CODE -->
       <footer class="footer">
         <p class="footer-code-label">Your Member Code</p>
-        <div class="footer-code"><span class="footer-code-prefix">#</span>{code}</div>
+        <div class="footer-code"><span class="footer-code-prefix">{prefix}</span>{code}</div>
         <p class="footer-present">Present this page or provide your code number when calling</p>
       </footer>
 
@@ -142,7 +145,7 @@ def make_qr_generator():
 
 def make_landing_page(portal_filename):
     """Creates a very simple 'VIP' entrance page with just a logo linking to the portal."""
-    filename = "vip-7391.html"
+    filename = "index.html"
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,10 +176,12 @@ def make_landing_page(portal_filename):
     return filename
 
 def make_index():
-    portal_filename = "portal-5291.html"
+    portal_filename = "vip-7391.html"
     cards = ""
     for c in COMPANIES:
         fn = f"{c['slug']}-{c['suffix']}.html"
+        # If code is numeric, keep # prefix, otherwise just show it
+        prefix = "#" if str(c['code']).isdigit() else ""
         cards += f"""
       <div class="partner-card">
         <div class="partner-qr">
@@ -184,7 +189,7 @@ def make_index():
         </div>
         <div class="partner-body">
           <div class="partner-name">{c['full']}</div>
-          <div class="partner-code"><span>#</span>{c['code']}</div>
+          <div class="partner-code"><span>{prefix}</span>{c['code']}</div>
           <div class="partner-discounts">
             <div class="discount-item"><span>Imaging:</span> {c['imaging']}%</div>
             <div class="discount-item"><span>Regen:</span> 10%</div>
@@ -258,21 +263,6 @@ def make_index():
     with open(path, "w") as f:
         f.write(html)
     print(f"  📋  {portal_filename} (Portal List) written")
-
-    # Create a redirect at the root index.html to hide the folder contents
-    redirect_html = """<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="refresh" content="0; url=https://lifegenix.com">
-</head>
-<body>
-  <p>Redirecting to <a href="https://lifegenix.com">lifegenix.com</a>...</p>
-</body>
-</html>"""
-    index_path = os.path.join(OUTPUT_DIR, "index.html")
-    with open(index_path, "w") as f:
-        f.write(redirect_html)
-    print(f"  🔀  index.html (Redirect) written")
     
     return portal_filename
 
