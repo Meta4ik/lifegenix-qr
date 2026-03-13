@@ -257,8 +257,11 @@ body::after {
 }
 
 .cta-phone {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 16px;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   background: linear-gradient(135deg, var(--teal) 0%, #1a8fad 100%);
   color: var(--white);
