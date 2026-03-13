@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Rep QR Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --accent: #c84b2f;
+    --accent2: #2d6a4f;
+    --muted: #8a8070;
+    --border: #d4cfc4;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+  }
+  header span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ── LAYOUT ── */
+  .app {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    min-height: calc(100vh - 72px);
+  }
+
+  /* ── FORM PANEL ── */
+  .form-panel {
+    border-right: 2px solid var(--ink);
+    padding: 2rem;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .panel-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  input, textarea, select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.85rem;
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 4px;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--ink);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+  .discount-field input {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* URL mode */
+  .url-mode-toggle {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding: 0.5rem 0;
+    cursor: pointer;
+  }
+  .url-mode-toggle input[type=checkbox] { accent-color: var(--accent); width: 14px; height: 14px; }
+
+  /* Branding section */
+  .color-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .color-row input[type="color"] {
+    height: 42px;
+    padding: 0.2rem;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  /* Buttons */
+  .btn-generate {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    padding: 0.85rem 1.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.01em;
+  }
+  .btn-generate:hover { background: var(--accent); transform: translateY(-1px); }
+  .btn-generate:active { transform: translateY(0); }
+
+  /* ── PREVIEW PANEL ── */
+  .preview-panel {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0.35;
+  }
+  .empty-state .big-icon { font-size: 4rem; }
+  .empty-state p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .results { display: flex; flex-direction: column; gap: 2rem; }
+
+  .result-card {
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .result-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.75rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .result-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+  }
+  .result-header .rep-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .result-body {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .qr-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  #qrcode canvas, #qrcode img { display: block; }
+
+  .qr-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .result-info { display: flex; flex-direction: column; gap: 0.75rem; }
+  .info-row { display: flex; flex-direction: column; gap: 0.15rem; }
+  .info-row .lbl {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .info-row .val { font-size: 0.9rem; }
+  .info-row .val.code {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .result-actions {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .btn-dl { background: var(--accent2); color: white; border-color: var(--accent2); }
+  .btn-dl:hover { background: #235c40; }
+  .btn-qr { background: transparent; color: var(--ink); border-color: var(--ink); }
+  .btn-qr:hover { background: var(--ink); color: var(--paper); }
+  .btn-preview { background: transparent; color: var(--muted); border-color: var(--border); }
+  .btn-preview:hover { border-color: var(--muted); color: var(--ink); }
+
+  /* ── REPS LIST ── */
+  .reps-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .rep-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.82rem;
+  }
+  .rep-chip .chip-code { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--accent); }
+  .rep-chip .chip-del { cursor: pointer; color: var(--muted); font-size: 0.7rem; margin-left: 0.5rem; padding: 2px 6px; border: 1px solid var(--border); border-radius: 3px; }
+  .rep-chip .chip-del:hover { color: var(--accent); border-color: var(--accent); }
+
+  .btn-add {
+    font-size: 0.8rem;
+    color: var(--accent2);
+    border: 1.5px dashed var(--accent2);
+    background: transparent;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.15s;
+  }
+  .btn-add:hover { background: var(--accent2); color: white; }
+
+  .btn-gen-all {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    padding: 0.85rem 1.5rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-gen-all:hover { background: #a83a20; transform: translateY(-1px); }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0.25rem 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>QR Rep Generator</h1>
+  <span>Sales Toolkit</span>
+</header>
+
+<div class="app">
+  <!-- FORM PANEL -->
+  <div class="form-panel">
+    <div class="panel-title">Branding</div>
+
+    <div class="field">
+      <label>Company Name</label>
+      <input type="text" id="companyName" placeholder="Acme Corp" value="">
+    </div>
+
+    <div class="field">
+      <label>Company Tagline <span style="font-weight:300;text-transform:none;">(optional)</span></label>
+      <input type="text" id="companyTagline" placeholder="Quality you can trust">
+    </div>
+
+    <div class="color-row">
+      <div class="field">
+        <label>Brand Color</label>
+        <input type="color" id="brandColor" value="#c84b2f">
+      </div>
+      <div class="field">
+        <label>Accent Color</label>
+        <input type="color" id="accentColor" value="#0f0e0c">
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="panel-title">Sales Reps</div>
+
+    <div class="reps-list" id="repsList"></div>
+    <button class="btn-add" onclick="showAddRepForm()">+ Add Sales Rep</button>
+
+    <div id="addRepForm" style="display:none; flex-direction:column; gap:0.75rem;">
+      <div class="row2">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" id="repFirst" placeholder="Jane">
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <input type="text" id="repLast" placeholder="Smith">
+        </div>
+      </div>
+      <div class="field">
+        <label>Title <span style="font-weight:300;text-transform:none;">(optional)</span></label>
+        <input type="text" id="repTitle" placeholder="Senior Account Executive">
+      </div>
+      <div class="field discount-field">
+        <label>Discount Code</label>
+        <input type="text" id="repCode" placeholder="JANE20" oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <div class="field">
+        <label>Discount Description</label>
+        <input type="text" id="repDiscount" placeholder="20% off your first order">
+      </div>
+      <div class="field">
+        <label>Page URL (where this file will be hosted)</label>
+        <input type="text" id="repUrl" placeholder="https://yoursite.com/jane-smith">
+      </div>
+      <button class="btn-generate" onclick="addRep()">Add Rep →</button>
+    </div>
+
+    <hr class="section-divider" id="genAllDivider" style="display:none;">
+    <button class="btn-gen-all" id="genAllBtn" style="display:none;" onclick="generateAll()">Generate All Pages + QR Codes</button>
+  </div>
+
+  <!-- PREVIEW PANEL -->
+  <div class="preview-panel">
+    <div class="empty-state" id="emptyState">
+      <div class="big-icon">⬡</div>
+      <p>Add reps & generate pages</p>
+    </div>
+    <div class="results" id="resultsContainer"></div>
+  </div>
+</div>
+
+<!-- Hidden QR render area -->
+<div id="qrRenderArea" style="position:absolute;left:-9999px;top:-9999px;"></div>
+
+<script>
+const reps = [];
+
+function showAddRepForm() {
+  const f = document.getElementById('addRepForm');
+  f.style.display = f.style.display === 'none' ? 'flex' : 'none';
+}
+
+function addRep() {
+  const first = document.getElementById('repFirst').value.trim();
+  const last  = document.getElementById('repLast').value.trim();
+  const title = document.getElementById('repTitle').value.trim();
+  const code  = document.getElementById('repCode').value.trim().toUpperCase();
+  const discount = document.getElementById('repDiscount').value.trim();
+  const url   = document.getElementById('repUrl').value.trim();
+
+  if (!first || !last || !code) {
+    alert('Please fill in First Name, Last Name, and Discount Code.');
+    return;
+  }
+
+  reps.push({ first, last, title, code, discount, url, id: Date.now() });
+  renderRepsList();
+
+  // clear form
+  ['repFirst','repLast','repTitle','repCode','repDiscount','repUrl'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('addRepForm').style.display = 'none';
+  document.getElementById('genAllBtn').style.display = 'block';
+  document.getElementById('genAllDivider').style.display = 'block';
+}
+
+function removeRep(id) {
+  const i = reps.findIndex(r => r.id === id);
+  if (i > -1) reps.splice(i, 1);
+  renderRepsList();
+  if (reps.length === 0) {
+    document.getElementById('genAllBtn').style.display = 'none';
+    document.getElementById('genAllDivider').style.display = 'none';
+  }
+}
+
+function renderRepsList() {
+  const el = document.getElementById('repsList');
+  el.innerHTML = reps.map(r => `
+    <div class="rep-chip">
+      <span><strong>${r.first} ${r.last}</strong>${r.title ? ' — '+r.title : ''}</span>
+      <span style="display:flex;align-items:center;gap:0.4rem;">
+        <span class="chip-code">${r.code}</span>
+        <span class="chip-del" onclick="removeRep(${r.id})">✕</span>
+      </span>
+    </div>
+  `).join('');
+}
+
+function generateAll() {
+  document.getElementById('emptyState').style.display = 'none';
+  const container = document.getElementById('resultsContainer');
+  container.innerHTML = '';
+
+  const company  = document.getElementById('companyName').value.trim() || 'Your Company';
+  const tagline  = document.getElementById('companyTagline').value.trim();
+  const brand    = document.getElementById('brandColor').value;
+  const accent   = document.getElementById('accentColor').value;
+
+  reps.forEach(rep => {
+    const html = buildLandingPage(rep, company, tagline, brand, accent);
+    const blob = new Blob([html], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+    const filename = `${rep.first.toLowerCase()}-${rep.last.toLowerCase()}.html`;
+
+    // Generate QR code pointing to rep's URL or blob
+    const qrTarget = rep.url || blobUrl;
+    const qrDiv = document.createElement('div');
+    qrDiv.id = 'qr_' + rep.id;
+    document.getElementById('qrRenderArea').appendChild(qrDiv);
+
+    new QRCode(qrDiv, {
+      text: qrTarget,
+      width: 140,
+      height: 140,
+      colorDark: accent,
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+
+    // wait for QR canvas render
+    setTimeout(() => {
+      const canvas = qrDiv.querySelector('canvas');
+      const qrDataUrl = canvas ? canvas.toDataURL() : '';
+
+      // Build result card
+      const card = document.createElement('div');
+      card.className = 'result-card';
+      card.innerHTML = `
+        <div class="result-header">
+          <h3>${rep.first} ${rep.last}</h3>
+          <span class="rep-code">${rep.code}</span>
+        </div>
+        <div class="result-body">
+          <div class="qr-box">
+            <img src="${qrDataUrl}" width="140" height="140" style="display:block;">
+            <span class="qr-label">Scan to preview</span>
+          </div>
+          <div class="result-info">
+            ${rep.title ? `<div class="info-row"><span class="lbl">Title</span><span class="val">${rep.title}</span></div>` : ''}
+            <div class="info-row"><span class="lbl">Discount Code</span><span class="val code">${rep.code}</span></div>
+            ${rep.discount ? `<div class="info-row"><span class="lbl">Offer</span><span class="val">${rep.discount}</span></div>` : ''}
+            ${rep.url ? `<div class="info-row"><span class="lbl">Target URL</span><span class="val" style="font-size:0.78rem;word-break:break-all;">${rep.url}</span></div>` : ''}
+            <div class="info-row"><span class="lbl">File</span><span class="val" style="font-size:0.78rem;">${filename}</span></div>
+          </div>
+        </div>
+        <div class="result-actions">
+          <a class="btn-action btn-dl" href="${blobUrl}" download="${filename}">⬇ Download HTML</a>
+          <a class="btn-action btn-qr" href="${qrDataUrl}" download="qr-${rep.first.toLowerCase()}-${rep.last.toLowerCase()}.png">⬇ Download QR</a>
+          <a class="btn-action btn-preview" href="${blobUrl}" target="_blank">↗ Preview</a>
+        </div>
+      `;
+      container.appendChild(card);
+    }, 150);
+  });
+}
+
+function buildLandingPage(rep, company, tagline, brand, accent) {
+  // lighten brand color for background tint
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${rep.first} ${rep.last} — ${company}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brand: ${brand};
+    --accent: ${accent};
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #fafaf8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    max-width: 420px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08);
+    animation: rise 0.6s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    background: var(--accent);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: var(--brand);
+    opacity: 0.25;
+    border-radius: 50%;
+  }
+  .card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -30px;
+    width: 200px; height: 200px;
+    background: var(--brand);
+    opacity: 0.12;
+    border-radius: 50%;
+  }
+
+  .company-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 1.2rem;
+    position: relative; z-index: 1;
+  }
+
+  .rep-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.1;
+    position: relative; z-index: 1;
+  }
+
+  .rep-title {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    margin-top: 0.4rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+
+  .card-body { padding: 2rem; }
+
+  .tagline {
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .discount-block {
+    background: #fafaf8;
+    border: 2px dashed var(--brand);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .discount-block::before {
+    content: 'YOUR EXCLUSIVE OFFER';
+    position: absolute;
+    top: -0.55rem; left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #aaa;
+    padding: 0 0.5rem;
+    white-space: nowrap;
+  }
+
+  .discount-desc {
+    font-size: 0.88rem;
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .code-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 0.4rem;
+  }
+
+  .code-box {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--brand);
+    background: white;
+    border: 2px solid var(--brand);
+    border-radius: 6px;
+    padding: 0.4rem 1.5rem;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .code-box:hover {
+    background: var(--brand);
+    color: white;
+  }
+  .copy-hint {
+    font-size: 0.65rem;
+    color: #bbb;
+    margin-top: 0.5rem;
+  }
+
+  .footer {
+    border-top: 1px solid #f0f0ec;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #bbb;
+    letter-spacing: 0.04em;
+  }
+
+  .copied-msg {
+    display: none;
+    font-size: 0.72rem;
+    color: #4caf50;
+    font-weight: 500;
+    margin-top: 0.4rem;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <div class="company-name">${company}</div>
+      <div class="rep-name">${rep.first}<br>${rep.last}</div>
+      ${rep.title ? `<div class="rep-title">${rep.title}</div>` : ''}
+    </div>
+    <div class="card-body">
+      ${tagline ? `<p class="tagline">${tagline}</p>` : ''}
+      <div class="discount-block">
+        ${rep.discount ? `<p class="discount-desc">${rep.discount}</p>` : ''}
+        <div class="code-label">Use code at checkout</div>
+        <div class="code-box" onclick="copyCode()" id="codeEl">${rep.code}</div>
+        <div class="copy-hint">Tap code to copy</div>
+        <div class="copied-msg" id="copiedMsg">✓ Copied to clipboard!</div>
+      </div>
+    </div>
+    <div class="footer">${company}${tagline ? ' · ' + tagline : ''}</div>
+  </div>
+
+<script>
+function copyCode() {
+  const code = document.getElementById('codeEl').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    document.getElementById('copiedMsg').style.display = 'block';
+    setTimeout(() => document.getElementById('copiedMsg').style.display = 'none', 2000);
+  });
+}
+<\/script>
+</body>
+</html>`;
+}
+</script>
+</body>
+</html>
