@@ -9,13 +9,13 @@ import os
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 COMPANIES = [
-    {"slug": "strata",         "name": "STRATA",          "full": "Strata Commercial",  "code": 11,  "suffix": 93810},
-    {"slug": "ypo",            "name": "YPO",              "full": "YPO",                "code": 26,  "suffix": 24592},
-    {"slug": "cleanplacepros", "name": "CLEAN PLACE PROS", "full": "Clean Place Pros",   "code": 12,  "suffix": 13278},
-    {"slug": "bannerhouse",    "name": "BANNER HOUSE",     "full": "Banner House",        "code": 26,  "suffix": 46048},
-    {"slug": "parkhouse",      "name": "PARK HOUSE",       "full": "Park House",          "code": 33,  "suffix": 42098},
-    {"slug": "edgerealty",     "name": "EDGE REALTY",      "full": "Edge Realty",         "code": 14,  "suffix": 39256},
-    {"slug": "nexbank",         "name": "NEXBANK",           "full": "NexBank",              "code": 17,  "suffix": 58734},
+    {"slug": "strata",         "name": "STRATA",          "full": "Strata Commercial",  "code": 11,  "suffix": 93810, "imaging": 20},
+    {"slug": "ypo",            "name": "YPO",              "full": "YPO",                "code": 26,  "suffix": 24592, "imaging": 25},
+    {"slug": "cleanplacepros", "name": "CLEAN PLACE PROS", "full": "Clean Place Pros",   "code": 12,  "suffix": 13278, "imaging": 20},
+    {"slug": "bannerhouse",    "name": "BANNER HOUSE",     "full": "Banner House",        "code": 26,  "suffix": 46048, "imaging": 25},
+    {"slug": "parkhouse",      "name": "PARK HOUSE",       "full": "Park House",          "code": 33,  "suffix": 42098, "imaging": 25},
+    {"slug": "edgerealty",     "name": "EDGE REALTY",      "full": "Edge Realty",         "code": 14,  "suffix": 39256, "imaging": 20},
+    {"slug": "nexbank",         "name": "NEXBANK",           "full": "NexBank",              "code": 17,  "suffix": 58734, "imaging": 20},
 ]
 
 def make_page(company):
@@ -24,6 +24,7 @@ def make_page(company):
     full = company["full"]
     code = company["code"]
     suffix = company["suffix"]
+    imaging = company["imaging"]
     filename = f"{slug}-{suffix}.html"
 
     html = f"""<!DOCTYPE html>
@@ -68,7 +69,7 @@ def make_page(company):
             <path d="m636.56 36.57c-249.12 0-460.3 161.8-534.67 385.97l69.434-10.812 112.66 0.035157c67.621-125.42 200.14-210.68 352.58-210.68 221.16 0 400.4 179.3 400.4 400.44 0 221.17-179.26 400.43-400.4 400.43-138.85 0-261.12-70.754-332.94-178.11h-184.11c86.566 199.75 285.45 339.59 517.04 339.59 311.18-0.003906 563.45-252.24 563.45-563.43 0-311.16-252.27-563.44-563.44-563.44zm127.85 128.14c-2.0391 8.1367-9.2891 13.559-17.305 13.559-1.4414 0-2.9141-0.15625-4.3438-0.55078-68.746-17.148-141.77-17.148-210.59 0-9.5625 2.5547-19.262-3.4336-21.66-12.996-2.3867-9.5625 3.4336-19.262 13.043-21.648 74.449-18.59 153.42-18.59 227.86 0 9.5703 2.375 15.391 12.059 13 21.637z"/>
           </svg>
           <div class="card-title">Preventive Wellness &amp; Imaging</div>
-          <div class="card-discount">20%</div>
+          <div class="card-discount">{imaging}%</div>
           <span class="card-discount-label">Off Regular Price</span>
         </div>
 
