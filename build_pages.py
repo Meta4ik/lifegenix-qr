@@ -75,7 +75,7 @@ def make_page(company):
 
         <div class="card">
           <span class="card-icon">🧬</span>
-          <div class="card-title">Regenerative Services</div>
+          <div class="card-title">Regenerative<br>Services</div>
           <div class="card-discount">10%</div>
           <span class="card-discount-label">Off Regular Price</span>
         </div>
