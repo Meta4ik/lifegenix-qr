@@ -5,18 +5,91 @@ Generates 6 HTML pages — one per company partner.
 """
 
 import os
+import urllib.parse
 
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 COMPANIES = [
-    {"slug": "strata",         "name": "STRATA Commercial",  "full": "STRATA Commercial",  "code": "11",  "suffix": 93810, "imaging": 20},
-    {"slug": "cleanplacepros", "name": "CLEAN PLACE PROS",   "full": "CLEAN PLACE PROS",   "code": "12",  "suffix": 13278, "imaging": 20},
-    {"slug": "edgerealty",     "name": "EDGE REALTY",        "full": "EDGE REALTY",        "code": "13",  "suffix": 39256, "imaging": 20},
-    {"slug": "hiley",          "name": "HILEY AUTOMOTIVE",   "full": "HILEY AUTOMOTIVE",   "code": "14",  "suffix": 74218, "imaging": 20},
-    {"slug": "nexbank",        "name": "NexBank",            "full": "NexBank",            "code": "15",  "suffix": 58734, "imaging": 20},
-    {"slug": "bannerhouse",    "name": "BANNER HOUSE",       "full": "BANNER HOUSE MEMBER","code": "ND",  "suffix": 46048, "imaging": 25},
-    {"slug": "parkhouse",      "name": "PARK HOUSE",         "full": "PARK HOUSE MEMBER",  "code": "HP",  "suffix": 42098, "imaging": 25},
-    {"slug": "ypo",            "name": "YPO",                "full": "YPO MEMBER",         "code": "TX",  "suffix": 24592, "imaging": 25},
+    {
+        "slug": "strata",
+        "name": "STRATA Commercial",
+        "full": "STRATA Commercial",
+        "code": "11",
+        "suffix": 93810,
+        "imaging": 20,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Strata Commercial.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Strata_Commercial.pdf"
+    },
+    {
+        "slug": "cleanplacepros",
+        "name": "CLEAN PLACE PROS",
+        "full": "CLEAN PLACE PROS",
+        "code": "12",
+        "suffix": 13278,
+        "imaging": 20,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Clean_Place_Pros.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Clean_Place_Pros.pdf"
+    },
+    {
+        "slug": "edgerealty",
+        "name": "EDGE REALTY",
+        "full": "EDGE REALTY",
+        "code": "13",
+        "suffix": 39256,
+        "imaging": 20,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Edge_Realty.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Edge_Realty.pdf"
+    },
+    {
+        "slug": "hiley",
+        "name": "HILEY AUTOMOTIVE",
+        "full": "HILEY AUTOMOTIVE",
+        "code": "14",
+        "suffix": 74218,
+        "imaging": 20,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Hiley_Automotive.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Hiley_Automotive.pdf"
+    },
+    {
+        "slug": "nexbank",
+        "name": "NexBank",
+        "full": "NexBank",
+        "code": "15",
+        "suffix": 58734,
+        "imaging": 20,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_NexBank.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_NexBank.pdf"
+    },
+    {
+        "slug": "bannerhouse",
+        "name": "BANNER HOUSE",
+        "full": "BANNER HOUSE MEMBER",
+        "code": "ND",
+        "suffix": 46048,
+        "imaging": 25,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Banner_House_Member.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Banner_House_Member.pdf"
+    },
+    {
+        "slug": "parkhouse",
+        "name": "PARK HOUSE",
+        "full": "PARK HOUSE MEMBER",
+        "code": "HP",
+        "suffix": 42098,
+        "imaging": 25,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Park_House_Member.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Park_House_Member.pdf"
+    },
+    {
+        "slug": "ypo",
+        "name": "YPO",
+        "full": "YPO MEMBER",
+        "code": "TX",
+        "suffix": 24592,
+        "imaging": 25,
+        "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_YPO_Member.pdf",
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_YPO_Member.pdf"
+    },
 ]
 
 def make_page(company):
@@ -180,6 +253,10 @@ def make_index():
         fn = f"{c['slug']}-{c['suffix']}.html"
         # If code is numeric, keep # prefix, otherwise just show it
         prefix = "#" if str(c['code']).isdigit() else ""
+        
+        pdf_vip_url = urllib.parse.quote(str(c['pdf_vip']))
+        pdf_longevity_url = urllib.parse.quote(str(c['pdf_longevity']))
+        
         cards += f"""
       <div class="partner-card">
         <div class="partner-qr">
@@ -193,6 +270,12 @@ def make_index():
             <div class="discount-item"><span>Regen:</span> 10%</div>
             <div class="discount-item"><span>Back:</span> 10%</div>
           </div>
+          
+          <div class="partner-assets">
+            <a href="{pdf_vip_url}" class="asset-link" download><span>📄</span> VIP PDF</a>
+            <a href="{pdf_longevity_url}" class="asset-link" download><span>📊</span> Longevity</a>
+          </div>
+
           <a href="{fn}" class="partner-link">Open page</a>
         </div>
       </div>
@@ -242,6 +325,36 @@ def make_index():
     }}
     .discount-item {{ font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; }}
     .discount-item span {{ color: var(--offwhite); opacity: 0.7; font-weight: 600; }}
+    
+    .partner-assets {{
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }}
+    .asset-link {{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--offwhite);
+      text-decoration: none;
+      background: rgba(255,255,255,0.05);
+      padding: 8px 8px;
+      border-radius: 8px;
+      transition: background 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }}
+    .asset-link:hover {{
+      background: rgba(37,174,212,0.15);
+      transform: translateY(-1px);
+    }}
+    .asset-link span {{ font-size: 14px; opacity: 0.8; }}
   </style>
 </head>
 <body>
