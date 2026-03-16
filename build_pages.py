@@ -272,8 +272,8 @@ def make_index():
           </div>
           
           <div class="partner-assets">
-            <a href="{pdf_vip_url}" class="asset-link" download><span>📄</span> VIP PDF</a>
-            <a href="{pdf_longevity_url}" class="asset-link" download><span>📊</span> Longevity</a>
+            <a href="{pdf_vip_url}" class="asset-link" download><span>📄</span> 1 Page VIP PDF</a>
+            <a href="{pdf_longevity_url}" class="asset-link" download><span>📊</span> 4 Page Longevity Program</a>
           </div>
 
           <a href="{fn}" class="partner-link">Open page</a>
@@ -326,30 +326,29 @@ def make_index():
     .discount-item {{ font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; }}
     .discount-item span {{ color: var(--offwhite); opacity: 0.7; font-weight: 600; }}
     
-    .partner-assets {{
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }}
-    .asset-link {{
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--offwhite);
-      text-decoration: none;
-      background: rgba(255,255,255,0.05);
-      padding: 8px 8px;
-      border-radius: 8px;
-      transition: background 0.2s ease, transform 0.2s ease;
-      white-space: nowrap;
-    }}
+      .partner-assets {{
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }}
+      .asset-link {{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: var(--offwhite);
+        text-decoration: none;
+        background: rgba(255,255,255,0.05);
+        padding: 10px 12px;
+        border-radius: 8px;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }}
     .asset-link:hover {{
       background: rgba(37,174,212,0.15);
       transform: translateY(-1px);
