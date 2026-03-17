@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeGenix Service Invoice</title>
+    <style>
+        :root {
+            --navy: #071525;
+            --teal: #25aed4;
+            --offwhite: #f8fafc;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #334155;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px;
+            background-color: #fff;
+        }
+        .invoice-box {
+            max-width: 850px;
+            margin: auto;
+            border: 1px solid var(--border);
+            padding: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--navy);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        .logo { height: 50px; }
+        .invoice-title {
+            text-align: right;
+        }
+        .invoice-title h1 {
+            margin: 0;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 28px;
+        }
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin-bottom: 40px;
+            gap: 40px;
+        }
+        .section-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: var(--teal);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        th {
+            text-align: left;
+            padding: 15px;
+            background: var(--navy);
+            color: white;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        td {
+            padding: 20px 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            vertical-align: top;
+        }
+        .desc-main { font-weight: 600; color: var(--navy); display: block; margin-bottom: 5px; }
+        .desc-sub { font-size: 12px; color: #64748b; }
+        .hours { text-align: center; font-weight: 600; }
+        .total-row {
+            background: #f1f5f9;
+        }
+        .total-label { font-weight: 700; text-align: right; }
+        .footer {
+            margin-top: 60px;
+            font-size: 11px;
+            color: #94a3b8;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+        @media print {
+            body { padding: 0; background: none; }
+            .invoice-box { border: none; box-shadow: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <div class="header">
+            <img src="LifeGenix_Logo_blue-1.svg" alt="LifeGenix" class="logo">
+            <div class="invoice-title">
+                <h1>Service Invoice</h1>
+                <p style="margin:5px 0 0; color:#64748b;">Invoice Date: March 16, 2026</p>
+            </div>
+        </div>
+
+        <div class="meta-grid">
+            <div>
+                <div class="section-title">Client</div>
+                <strong>LifeGenix</strong><br>
+                Digital Assets & VIP Services<br>
+                www.lifegenix.com
+            </div>
+            <div style="text-align: right;">
+                <div class="section-title">Service Period</div>
+                March 2026<br>
+                Dev Cycle: VIP Portal & UX Optimization
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 75%;">Service Description</th>
+                    <th style="width: 25%; text-align: center;">Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="desc-main">VIP Partner Portal & Automation</span>
+                        <span class="desc-sub">Development of Python generation system; landing page creation for 8 partners; custom member code logic (Alphanumeric/Numeric).</span>
+                    </td>
+                    <td class="hours">10.0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="desc-main">Security & Routing Logic</span>
+                        <span class="desc-sub">Implementation of hidden master index (vip-7391.html) and entrance obfuscation.</span>
+                    </td>
+                    <td class="hours">2.5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="desc-main">UI/UX Global Refinements</span>
+                        <span class="desc-sub">Icon system unification; mobile interaction optimization (hover to click); glass-morphism button styling.</span>
+                    </td>
+                    <td class="hours">6.0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="desc-main">Structural Site Updates</span>
+                        <span class="desc-sub">"About" page redesign (2-column grid); Global navigation overhaul with Lucide icons.</span>
+                    </td>
+                    <td class="hours">5.5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="desc-main">Content Integrity & SEO</span>
+                        <span class="desc-sub">Review verification; VIP search engine exclusion (no-index); roadmap audits.</span>
+                    </td>
+                    <td class="hours">2.5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="desc-main">Technical Maintenance</span>
+                        <span class="desc-sub">Git configuration; asset optimization; repository sync and cleanup.</span>
+                    </td>
+                    <td class="hours">2.0</td>
+                </tr>
+                <tr class="total-row">
+                    <td class="total-label">Total Professional Hours</td>
+                    <td class="hours" style="font-size: 18px; color: var(--teal);">28.5</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            Technical development provided by Antigravity AI.<br>
+            Automated via build_pages.py generation system.
+        </div>
+    </div>
+</body>
+</html>

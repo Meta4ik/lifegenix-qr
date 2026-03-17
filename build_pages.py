@@ -18,7 +18,8 @@ COMPANIES = [
         "suffix": 93810,
         "imaging": 20,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Strata Commercial.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Strata_Commercial.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Strata_Commercial.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Strata_Commercial.pdf"
     },
     {
         "slug": "cleanplacepros",
@@ -28,7 +29,8 @@ COMPANIES = [
         "suffix": 13278,
         "imaging": 20,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Clean_Place_Pros.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Clean_Place_Pros.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Clean_Place_Pros.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Clean_Place_Pros.pdf"
     },
     {
         "slug": "edgerealty",
@@ -38,7 +40,8 @@ COMPANIES = [
         "suffix": 39256,
         "imaging": 20,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Edge_Realty.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Edge_Realty.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Edge_Realty.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Edge_Realty.pdf"
     },
     {
         "slug": "hiley",
@@ -48,7 +51,8 @@ COMPANIES = [
         "suffix": 74218,
         "imaging": 20,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Hiley_Automotive.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Hiley_Automotive.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Hiley_Automotive.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Hiley_Automotive.pdf"
     },
     {
         "slug": "nexbank",
@@ -58,7 +62,8 @@ COMPANIES = [
         "suffix": 58734,
         "imaging": 20,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_NexBank.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_NexBank.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_NexBank.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_NexBank.pdf"
     },
     {
         "slug": "bannerhouse",
@@ -68,7 +73,8 @@ COMPANIES = [
         "suffix": 46048,
         "imaging": 25,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Banner_House_Member.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Banner_House_Member.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Banner_House_Member.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Banner_House_Member.pdf"
     },
     {
         "slug": "parkhouse",
@@ -78,7 +84,8 @@ COMPANIES = [
         "suffix": 42098,
         "imaging": 25,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Park_House_Member.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Park_House_Member.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Park_House_Member.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Park_House_Member.pdf"
     },
     {
         "slug": "ypo",
@@ -88,7 +95,8 @@ COMPANIES = [
         "suffix": 24592,
         "imaging": 25,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_YPO_Member.pdf",
-        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_YPO_Member.pdf"
+        "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_YPO_Member.pdf",
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_YPO_Member.pdf"
     },
 ]
 
@@ -102,6 +110,10 @@ def make_page(company):
     filename = f"{slug}-{suffix}.html"
     # If code is numeric, keep # prefix, otherwise just show it
     prefix = "#" if str(code).isdigit() else ""
+
+    pdf_vip_url = urllib.parse.quote(str(company['pdf_vip']))
+    pdf_longevity_url = urllib.parse.quote(str(company['pdf_longevity']))
+    pdf_baseline_url = urllib.parse.quote(str(company['pdf_baseline']))
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -165,6 +177,34 @@ def make_page(company):
           <span class="card-discount-label">Off Regular Price</span>
         </div>
 
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="resources-section">
+      <p class="cards-label">Member Resources</p>
+      <div class="resources-grid">
+        <a href="{pdf_vip_url}" class="resource-card" download>
+          <div class="resource-icon">📄</div>
+          <div class="resource-info">
+            <span class="resource-name">VIP Program Overview</span>
+            <span class="resource-meta">1 Page PDF</span>
+          </div>
+        </a>
+        <a href="{pdf_baseline_url}" class="resource-card" download>
+          <div class="resource-icon">📈</div>
+          <div class="resource-info">
+            <span class="resource-name">Baseline Program Pricing</span>
+            <span class="resource-meta">3 Page PDF</span>
+          </div>
+        </a>
+        <a href="{pdf_longevity_url}" class="resource-card" download>
+          <div class="resource-icon">📊</div>
+          <div class="resource-info">
+            <span class="resource-name">Longevity Special Investment</span>
+            <span class="resource-meta">4 Page PDF</span>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -256,6 +296,7 @@ def make_index():
         
         pdf_vip_url = urllib.parse.quote(str(c['pdf_vip']))
         pdf_longevity_url = urllib.parse.quote(str(c['pdf_longevity']))
+        pdf_baseline_url = urllib.parse.quote(str(c['pdf_baseline']))
         
         cards += f"""
       <div class="partner-card">
@@ -273,6 +314,7 @@ def make_index():
           
           <div class="partner-assets">
             <a href="{pdf_vip_url}" class="asset-link" download><span>📄</span> 1 Page VIP PDF</a>
+            <a href="{pdf_baseline_url}" class="asset-link" download><span>📈</span> 3 Page Baseline Pricing</a>
             <a href="{pdf_longevity_url}" class="asset-link" download><span>📊</span> 4 Page Longevity Program</a>
           </div>
 
