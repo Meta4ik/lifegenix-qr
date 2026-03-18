@@ -108,14 +108,22 @@
   </div>
 
   <script>
-    function checkLogin(e) {
+    async function checkLogin(e) {
       e.preventDefault();
       const pw = document.getElementById('password').value;
       const box = document.getElementById('login-box');
       const error = document.getElementById('error-msg');
       
-      // Simple client-side check
-      if (pw === 'lifegenix7391') {
+      // Hash pre-calculated for 'lifegenix7391'
+      const targetHash = "22231962c386abe6ccd22c83fe9cf996f8ad3763104d95a8074e4142a26a1462";
+      
+      // Calculate hash of input
+      const msgUint8 = new TextEncoder().encode(pw);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      if (hashHex === targetHash) {
         window.location.href = 'vip-7391.html';
       } else {
         box.classList.remove('shake');
