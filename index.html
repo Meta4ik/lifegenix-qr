@@ -3,19 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LifeGenix VIP Portal</title>
+  <title>LifeGenix VIP Portal Login</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="styles.css">
   <style>
-    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: var(--navy); }
-    .entrance { text-align: center; animation: fadeUp 0.8s ease both; }
-    .entrance img { height: 80px; transition: transform 0.3s ease; }
-    .entrance img:hover { transform: scale(1.05); }
+    body { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      min-height: 100vh; 
+      margin: 0; 
+      background: var(--navy); 
+      font-family: 'DM Sans', sans-serif;
+    }
+    .login-container { 
+      text-align: center; 
+      animation: fadeUp 1s ease both;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(37,174,212,0.15);
+      padding: 60px 40px;
+      border-radius: 24px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+    .login-container img { height: 64px; margin-bottom: 32px; }
+    .login-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--offwhite);
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+      text-align: center;
+      letter-spacing: 4px;
+    }
+    input[type="password"]:focus {
+      border-color: var(--teal);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 15px rgba(37,174,212,0.2);
+    }
+    .login-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--teal) 0%, #1a8fad 100%);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37,174,212,0.4);
+    }
+    .login-btn:active { transform: translateY(0); }
+    
+    #error-msg {
+      color: #ff4d4d;
+      font-size: 13px;
+      margin-top: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .shake { animation: shake 0.4s ease-in-out; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
   </style>
 </head>
 <body>
-  <div class="entrance">
+  <div class="login-container" id="login-box">
     <img src="LifeGenix_Logo_blue-w.svg" alt="LifeGenix VIP Portal">
+    <div class="login-title">VIP Access</div>
+    <form onsubmit="checkLogin(event)">
+      <div class="input-group">
+        <input type="password" id="password" placeholder="••••••••" required autofocus>
+      </div>
+      <button type="submit" class="login-btn">Secure Entrance</button>
+      <div id="error-msg">Invalid Access Code</div>
+    </form>
   </div>
+
+  <script>
+    function checkLogin(e) {
+      e.preventDefault();
+      const pw = document.getElementById('password').value;
+      const box = document.getElementById('login-box');
+      const error = document.getElementById('error-msg');
+      
+      // Simple client-side check
+      if (pw === 'lifegenix7391') {
+        window.location.href = 'vip-7391.html';
+      } else {
+        box.classList.remove('shake');
+        void box.offsetWidth; // trigger reflow
+        box.classList.add('shake');
+        error.style.opacity = '1';
+        document.getElementById('password').value = '';
+      }
+    }
+  </script>
 </body>
 </html>
