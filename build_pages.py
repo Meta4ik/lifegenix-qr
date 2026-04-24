@@ -74,7 +74,9 @@ COMPANIES = [
         "imaging": 25,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Banner_House_Member.pdf",
         "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Banner_House_Member.pdf",
-        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Banner_House_Member.pdf"
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Banner_House_Member.pdf",
+        "hide_vip_overview": True,
+        "longevity_label": "Full longevity Program Pricing"
     },
     {
         "slug": "parkhouse",
@@ -85,7 +87,9 @@ COMPANIES = [
         "imaging": 25,
         "pdf_vip": "LIFEGENIX-VIP/Lifegenix_VIP_Park_House_Member.pdf",
         "pdf_longevity": "LIFEGENIX-Longevity-Special-Investment-4pages/Lifegenix_Longevity_Park_House_Member.pdf",
-        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Park_House_Member.pdf"
+        "pdf_baseline": "LIFEGENIX-Baseline-Program-Pricing/Lifegenix_Baseline_Park_House_Member.pdf",
+        "hide_vip_overview": True,
+        "longevity_label": "Full longevity Program Pricing"
     },
     {
         "slug": "ypo",
@@ -114,6 +118,20 @@ def make_page(company):
     pdf_vip_url = urllib.parse.quote(str(company['pdf_vip']))
     pdf_longevity_url = urllib.parse.quote(str(company['pdf_longevity']))
     pdf_baseline_url = urllib.parse.quote(str(company['pdf_baseline']))
+
+    hide_vip = company.get('hide_vip_overview', False)
+    longevity_label = company.get('longevity_label', 'Longevity Special Investment')
+
+    vip_overview_html = ""
+    if not hide_vip:
+        vip_overview_html = f"""
+        <a href="{pdf_vip_url}" class="resource-card" download>
+          <div class="resource-icon">📄</div>
+          <div class="resource-info">
+            <span class="resource-name">VIP Program Overview</span>
+            <span class="resource-meta">1 Page PDF</span>
+          </div>
+        </a>"""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -184,13 +202,7 @@ def make_page(company):
     <section class="resources-section">
       <p class="cards-label">Member Resources</p>
       <div class="resources-grid">
-        <a href="{pdf_vip_url}" class="resource-card" download>
-          <div class="resource-icon">📄</div>
-          <div class="resource-info">
-            <span class="resource-name">VIP Program Overview</span>
-            <span class="resource-meta">1 Page PDF</span>
-          </div>
-        </a>
+        {vip_overview_html}
         <a href="{pdf_baseline_url}" class="resource-card" download>
           <div class="resource-icon">📈</div>
           <div class="resource-info">
@@ -201,7 +213,7 @@ def make_page(company):
         <a href="{pdf_longevity_url}" class="resource-card" download>
           <div class="resource-icon">📊</div>
           <div class="resource-info">
-            <span class="resource-name">Longevity Special Investment</span>
+            <span class="resource-name">{longevity_label}</span>
             <span class="resource-meta">4 Page PDF</span>
           </div>
         </a>
@@ -415,6 +427,13 @@ def make_index():
         pdf_longevity_url = urllib.parse.quote(str(c['pdf_longevity']))
         pdf_baseline_url = urllib.parse.quote(str(c['pdf_baseline']))
         
+        hide_vip = c.get('hide_vip_overview', False)
+        longevity_label = c.get('longevity_label', '4 Page Longevity Program')
+        
+        vip_overview_link = ""
+        if not hide_vip:
+            vip_overview_link = f'<a href="{pdf_vip_url}" class="asset-link" download><span>📄</span> 1 Page VIP PDF</a>'
+
         cards += f"""
       <div class="partner-card">
         <div class="partner-qr">
@@ -430,9 +449,9 @@ def make_index():
           </div>
           
           <div class="partner-assets">
-            <a href="{pdf_vip_url}" class="asset-link" download><span>📄</span> 1 Page VIP PDF</a>
+            {vip_overview_link}
             <a href="{pdf_baseline_url}" class="asset-link" download><span>📈</span> 3 Page Baseline Pricing</a>
-            <a href="{pdf_longevity_url}" class="asset-link" download><span>📊</span> 4 Page Longevity Program</a>
+            <a href="{pdf_longevity_url}" class="asset-link" download><span>📊</span> {longevity_label}</a>
           </div>
 
           <a href="{fn}" class="partner-link">Open page</a>
