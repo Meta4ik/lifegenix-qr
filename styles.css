@@ -431,13 +431,21 @@ body::after {
 
 .resources-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+}
+
+/* If there are 3 items, make the first one (VIP Overview) span both columns */
+.resource-card:first-child:nth-last-child(3) {
+  grid-column: span 2;
 }
 
 @media (max-width: 680px) {
   .resources-grid {
     grid-template-columns: 1fr;
+  }
+  .resource-card:first-child:nth-last-child(3) {
+    grid-column: span 1;
   }
 }
 
